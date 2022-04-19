@@ -1,0 +1,53 @@
+﻿@page
+@using Gatekeeper.Pages;
+@model	Gatekeeper.Pages.CalculationModel;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+	ViewData["Title"] = "Calculations";
+}
+
+<form method="post">
+    <table width="400">
+        <tr><td colspan="2" class="text-center text-light" bgcolor="3b4e87"><h4><b>Inflation Calculator</b></h4></td></tr>
+        <tr><td colspan="2" class="text-center text-light" bgcolor="8394c9">(A) Today's Value Based on Future Value</td></tr>
+        <tr><td colspan="2" bgcolor="eaeaea"><br/></td></tr>
+        <tr>
+            <td bgcolor="eaeaea">Future Value (FV):</td>
+            <td bgcolor="eaeaea"><input class="form-control" asp-for="Calculation.FutureValueInput" /></td>
+        </tr>
+        <tr>
+            <td bgcolor="eaeaea">Years from Now (n):</td>
+            <td bgcolor="eaeaea"><input class="form-control" asp-for="Calculation.PresentTerm" /></td>
+        </tr>
+        <tr>
+            <td bgcolor="eaeaea">Inflation Rate (r):</td>
+            <td bgcolor="eaeaea"><input class="form-control" asp-for="Calculation.PresentRate" /></td>
+        </tr>
+        <tr><td colspan="2" bgcolor="eaeaea"><br/></td></tr>
+        <tr>
+            <td bgcolor="eaeaea"><b>Present Value (PV):</b></td>
+            <td bgcolor="eaeaea"><input disabled asp-for="Calculation.PresentValue" /></td>
+        </tr>
+        <tr><td colspan="2" bgcolor="eaeaea"><br/></td></tr>
+        <tr><td colspan="2" class="text-center text-light" bgcolor="8394c9">(B) Future Value Based on Today's Value</td></tr>
+        <tr><td colspan="2" bgcolor="eaeaea"><br/></td></tr>
+        <tr>
+            <td bgcolor="eaeaea">Present Value (PV):</td>
+            <td bgcolor="eaeaea"><input class="form-control" asp-for="Calculation.PresentValueInput" /></td>
+        </tr>
+        <tr>
+            <td bgcolor="eaeaea">Years from Now (n):</td>
+            <td bgcolor="eaeaea"><input class="form-control" asp-for="Calculation.FutureTerm" /></td>
+        </tr>
+        <tr>
+            <td bgcolor="eaeaea">Inflation Rate (r):</td>
+            <td bgcolor="eaeaea"><input class="form-control" asp-for="Calculation.FutureRate" /></td>
+        </tr>
+        <tr><td colspan="2" bgcolor="eaeaea"><br/></td></tr>
+        <tr>
+            <td bgcolor="eaeaea"><b>Future Value (FV):</b></td>
+            <td bgcolor="eaeaea"><input disabled asp-for="Calculation.FutureValue" /></td>
+        <tr><td colspan="2" bgcolor="eaeaea"><br/></td></tr>
+    </table>
+    <input type="submit" value="Calculate" />
+</form>
