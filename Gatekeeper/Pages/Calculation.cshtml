@@ -1,53 +1,90 @@
 ﻿@page
 @using Gatekeeper.Pages;
-@model	Gatekeeper.Pages.CalculationModel;
+@model Gatekeeper.Pages.CalculationModel;
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-	ViewData["Title"] = "Calculations";
+    ViewData["Title"] = "Calculations";
 }
+<script type="text/javascript">
+    const justNumbersRegex = /[^\d|\.|\-]/g; //leaves numeric and decimal (period)
+
+    function FormatNumber(input) {
+      return parseFloat(input.replaceAll(justNumbersRegex, '')).toLocaleString('en-US');
+    }
+
+    function FormatCurrency(input) {
+      if (input == null || input.length == 0) return "";
+
+      const justNumber = FormatNumber(input);
+      if (justNumber == null || justNumber.length == 0) return "";
+
+      let numbers = justNumber.split(".");
+      return "$" + numbers[0] + (numbers.length > 1 ? "." + numbers[1] : ".00");
+    }
+
+    function FormatRate(input) {
+      if (input == null || input.length == 0) return "";
+
+      return FormatNumber(input) + "%";
+    }
+
+
+</script>
 
 <form method="post">
     <table width="400">
         <tr><td colspan="2" class="text-center text-light" bgcolor="3b4e87"><h4><b>Inflation Calculator</b></h4></td></tr>
         <tr><td colspan="2" class="text-center text-light" bgcolor="8394c9">(A) Today's Value Based on Future Value</td></tr>
-        <tr><td colspan="2" bgcolor="eaeaea"><br/></td></tr>
+        <tr><td colspan="2" bgcolor="eaeaea"><br /></td></tr>
         <tr>
             <td bgcolor="eaeaea">Future Value (FV):</td>
-            <td bgcolor="eaeaea"><input class="form-control" asp-for="Calculation.FutureValueInput" /></td>
+            <td bgcolor="eaeaea">
+                <input class="form-control" asp-for="Calculation.FutureValueInput" onblur="this.value = FormatCurrency(this.value);" />
+            </td>
         </tr>
         <tr>
             <td bgcolor="eaeaea">Years from Now (n):</td>
-            <td bgcolor="eaeaea"><input class="form-control" asp-for="Calculation.PresentTerm" /></td>
+            <td bgcolor="eaeaea">
+                <input class="form-control" asp-for="Calculation.PresentTerm" onblur="this.value = FormatNumber(this.value);" />
+            </td>
         </tr>
         <tr>
             <td bgcolor="eaeaea">Inflation Rate (r):</td>
-            <td bgcolor="eaeaea"><input class="form-control" asp-for="Calculation.PresentRate" /></td>
+            <td bgcolor="eaeaea">
+                <input class="form-control" asp-for="Calculation.PresentRate" onblur="this.value = FormatRate(this.value);" />
+            </td>
         </tr>
-        <tr><td colspan="2" bgcolor="eaeaea"><br/></td></tr>
+        <tr><td colspan="2" bgcolor="eaeaea"><br /></td></tr>
         <tr>
             <td bgcolor="eaeaea"><b>Present Value (PV):</b></td>
             <td bgcolor="eaeaea"><input disabled asp-for="Calculation.PresentValue" /></td>
         </tr>
-        <tr><td colspan="2" bgcolor="eaeaea"><br/></td></tr>
+        <tr><td colspan="2" bgcolor="eaeaea"><br /></td></tr>
         <tr><td colspan="2" class="text-center text-light" bgcolor="8394c9">(B) Future Value Based on Today's Value</td></tr>
-        <tr><td colspan="2" bgcolor="eaeaea"><br/></td></tr>
+        <tr><td colspan="2" bgcolor="eaeaea"><br /></td></tr>
         <tr>
             <td bgcolor="eaeaea">Present Value (PV):</td>
-            <td bgcolor="eaeaea"><input class="form-control" asp-for="Calculation.PresentValueInput" /></td>
+            <td bgcolor="eaeaea">
+                <input class="form-control" asp-for="Calculation.PresentValueInput" onblur="this.value = FormatCurrency(this.value);" />
+            </td>
         </tr>
         <tr>
             <td bgcolor="eaeaea">Years from Now (n):</td>
-            <td bgcolor="eaeaea"><input class="form-control" asp-for="Calculation.FutureTerm" /></td>
+            <td bgcolor="eaeaea">
+                <input class="form-control" type="number" asp-for="Calculation.FutureTerm" onblur="this.value = FormatNumber(this.value);" />
+            </td>
         </tr>
         <tr>
             <td bgcolor="eaeaea">Inflation Rate (r):</td>
-            <td bgcolor="eaeaea"><input class="form-control" asp-for="Calculation.FutureRate" /></td>
+            <td bgcolor="eaeaea">
+                <input class="form-control" asp-for="Calculation.FutureRate" onblur="this.value = FormatRate(this.value);" />
+            </td>
         </tr>
-        <tr><td colspan="2" bgcolor="eaeaea"><br/></td></tr>
+        <tr><td colspan="2" bgcolor="eaeaea"><br /></td></tr>
         <tr>
             <td bgcolor="eaeaea"><b>Future Value (FV):</b></td>
             <td bgcolor="eaeaea"><input disabled asp-for="Calculation.FutureValue" /></td>
-        <tr><td colspan="2" bgcolor="eaeaea"><br/></td></tr>
+        <tr><td colspan="2" bgcolor="eaeaea"><br /></td></tr>
     </table>
     <input type="submit" value="Calculate" />
 </form>
