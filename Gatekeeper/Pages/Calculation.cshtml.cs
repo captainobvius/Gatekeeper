@@ -8,7 +8,6 @@ namespace Gatekeeper.Pages
 {
     public class CalculationModel : PageModel
     {
-        private string pattern = @"[^\d |\.|\-]";
         public IActionResult OnGet()
         {
             return Page();
@@ -31,9 +30,9 @@ namespace Gatekeeper.Pages
             double input;
             int term;
 
-            string rateString = values.FutureRate != null ? Regex.Replace(values.FutureRate, pattern, "") : "";
-            string inputString = values.PresentValueInput != null ? Regex.Replace(values.PresentValueInput, pattern, "") : "";
-            string termString = values.FutureTerm != null ? Regex.Replace(values.FutureTerm, pattern, "") : "";
+            string rateString = values.FutureRate != null ? Regex.Replace(values.FutureRate, Calculation.Pattern, "") : "";
+            string inputString = values.PresentValueInput != null ? Regex.Replace(values.PresentValueInput, Calculation.Pattern, "") : "";
+            string termString = values.FutureTerm != null ? Regex.Replace(values.FutureTerm, Calculation.Pattern, "") : "";
 
             if (double.TryParse(rateString, out rate) && int.TryParse(termString, out term) && double.TryParse(inputString, out input))
             {
@@ -48,9 +47,9 @@ namespace Gatekeeper.Pages
             double input;
             int term;
 
-            string rateString = values.PresentRate != null ? Regex.Replace(values.PresentRate, pattern, "") : "";
-            string inputString = values.FutureValueInput != null ? Regex.Replace(values.FutureValueInput, pattern, "") : "";
-            string termString = values.PresentTerm != null ? Regex.Replace(values.PresentTerm, pattern, "") : "";
+            string rateString = values.PresentRate != null ? Regex.Replace(values.PresentRate, Calculation.Pattern, "") : "";
+            string inputString = values.FutureValueInput != null ? Regex.Replace(values.FutureValueInput, Calculation.Pattern, "") : "";
+            string termString = values.PresentTerm != null ? Regex.Replace(values.PresentTerm, Calculation.Pattern, "") : "";
 
             if (double.TryParse(rateString, out rate) && int.TryParse(termString, out term) && double.TryParse(inputString, out input))
             {
